@@ -1,4 +1,4 @@
 export class CreateMessageDto {
-    readonly key: string
+    readonly id: number
     readonly message: string
 }

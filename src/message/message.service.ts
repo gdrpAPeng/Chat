@@ -1,15 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { Message } from './interfaces/message.interface';
+import { Message, User } from './interfaces/message.interface';
+import { CreateMessageDto } from './dto/message.dto';
 
 @Injectable()
 export class MessageService {
-    private readonly messages: Message[] = []
+    private messages: Set<Message> = new Set()
+    private users: Map<number, User> = new Map([
+        [1, {
+            id: 1,
+            name: 'APeng'
+        }],
+        [2, {
+            id: 2,
+            name: '啊Peng'
+        }]
+    ])
 
-    create(message: Message) {
-        return this.messages.push(message)
+    create(message: CreateMessageDto) {
+        let result = {
+            ...message,
+            name: this.users.get(message.id).name
+        }
+        this.messages.add(result)
+        return result
     }
 
-    findAll(): Message[] {
-        return this.messages
+    findAll(): Array<Message> {
+        return [...this.messages]
     }
 }
