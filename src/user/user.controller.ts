@@ -1,9 +1,15 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
-    @Get()
-    tt() {
-        return '55'
+
+    constructor(
+        private readonly userService: UserService
+    ){}
+
+    @Post('/create')
+    create(@Body() data) {
+        return this.userService.create(data)
     }
 }
