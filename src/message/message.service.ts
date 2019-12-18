@@ -29,13 +29,14 @@ export class MessageService {
         let messagesData = await this.messageModel.find({
             sessionId
         })
+        // Object.preventExtensions() 防止添加新属性
+        // Object.isExtensible() 确定对象是否可扩展
         messagesData = JSON.parse(JSON.stringify(messagesData))
         await Promise.all(messagesData.map(async item => {
             const { nickname } = await this.userService.findOne(item.userId)
             item.nickname =  nickname
             return item
         }))
-        console.log(messagesData, '-=-=-')
         return messagesData
     }
 }
