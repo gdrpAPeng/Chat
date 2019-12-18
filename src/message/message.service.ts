@@ -1,31 +1,41 @@
-import { Injectable } from '@nestjs/common';
-import { Message, User } from './interfaces/message.interface';
+import { Injectable, Inject } from '@nestjs/common';
+import { IUser, IMessage } from './interfaces/message.interface';
 import { CreateMessageDto } from './dto/message.dto';
+import { UserService } from 'src/user/user.service';
+import { ConstantMessageModel } from 'src/common/constants';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class MessageService {
-    private messages: Set<Message> = new Set()
-    private users: Map<number, User> = new Map([
-        [1, {
-            id: 1,
-            name: 'APeng'
-        }],
-        [2, {
-            id: 2,
-            name: '啊Peng'
-        }]
-    ])
 
-    create(message: CreateMessageDto) {
-        let result = {
-            ...message,
-            name: this.users.get(message.id).name
+    constructor(
+        @Inject(ConstantMessageModel)
+        private readonly messageModel: Model<IMessage>,
+        private readonly userService: UserService
+    ){}
+
+    async create(data: CreateMessageDto): Promise<IMessage> {
+        // 获取 user 信息
+        let userData = await this.userService.findOne(data.userId)
+        let resultData = {
+            ...data,
+            nickname: userData.nickname
         }
-        this.messages.add(result)
-        return result
+        const createdMessage = new this.messageModel(resultData)
+        return await createdMessage.save()
     }
 
-    findAll(): Array<Message> {
-        return [...this.messages]
+    async findAll(sessionId: string): Promise<IMessage[]> {
+        let messagesData = await this.messageModel.find({
+            sessionId
+        })
+        messagesData = JSON.parse(JSON.stringify(messagesData))
+        await Promise.all(messagesData.map(async item => {
+            const { nickname } = await this.userService.findOne(item.userId)
+            item.nickname =  nickname
+            return item
+        }))
+        console.log(messagesData, '-=-=-')
+        return messagesData
     }
 }

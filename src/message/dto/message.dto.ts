@@ -1,4 +1,5 @@
 export class CreateMessageDto {
-    readonly id: number
+    readonly userId: string
+    readonly sessionId: string
     readonly message: string
 }

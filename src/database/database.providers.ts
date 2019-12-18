@@ -5,6 +5,6 @@ export const databaseProviders = [
     {
         provide: ConstantDatabaseConnection,
         useFactory: (): Promise<typeof mongoose> => 
-            mongoose.connect('mongodb://localhost:27017/apeng')
+            mongoose.connect('mongodb://localhost:27017/chat')
     }
 ]

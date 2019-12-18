@@ -1,20 +1,20 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { MessageService } from './message.service';
-import { CreateMessageDto } from './dto/message.dto';
-import { Message } from './interfaces/message.interface';
+import { IMessage } from './interfaces/message.interface';
 
 @Controller('message')
 export class MessageController {
-    constructor(private readonly messageService: MessageService){}
+    constructor(
+        private readonly messageService: MessageService
+    ){}
     
-    @Get()
-    findAll(): Message[] {
-        return this.messageService.findAll()
+    @Get(':sessionId')
+    findAll(@Param() params) {
+        return this.messageService.findAll(params.sessionId)
     }
 
-    // @Post()
-    // create(@Body() message: CreateMessageDto) {
-    //     console.log(message)
-    //     return this.messageService.create(message)
-    // }
+    @Post()
+    create(@Body() message) {
+        return this.messageService.create(message)
+    }
 }

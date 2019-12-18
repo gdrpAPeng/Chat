@@ -1,13 +1,11 @@
 import * as mongoose from 'mongoose'
 import * as dayjs from 'dayjs'
 
-export const UserSchema = new mongoose.Schema({
-    nickname: String,
-    password: {
-        type: String,
-        min: 6,
-        default: '123456'
-    },
+export const MessageSchema = new mongoose.Schema({
+    message: String,
+    userId: String,
+    sessionId: String,
+
 
     createTime: {
         type: Date,

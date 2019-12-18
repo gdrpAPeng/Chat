@@ -15,4 +15,15 @@ export class UserService {
         const createdUser = new this.userModel(createUserDto)
         return await createdUser.save()
     }
+
+    async findOne(id: string): Promise<User> {
+        return await this.userModel.findOne({
+            _id: id
+        })
+    }
+
+    async findAll(): Promise<User[]> {
+        return await this.userModel.find().exec()
+    }
+
 }
