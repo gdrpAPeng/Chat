@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { IUser, IMessage } from './interfaces/message.interface';
 import { CreateMessageDto } from './dto/message.dto';
-import { UserService } from 'src/user/user.service';
+import { UserService } from 'src/module/user/user.service';
 import { ConstantMessageModel } from 'src/common/constants';
 import { Model } from 'mongoose';
 
@@ -14,15 +14,19 @@ export class MessageService {
         private readonly userService: UserService
     ){}
 
-    async create(data: CreateMessageDto): Promise<IMessage> {
-        // 获取 user 信息
-        let userData = await this.userService.findOne(data.userId)
-        let resultData = {
-            ...data,
-            nickname: userData.nickname
+    async create(data: CreateMessageDto): Promise<IMessage> {  
+        const createdMessage = new this.messageModel(data)
+        let result = await createdMessage.save()
+
+        if(result) {
+            // 获取用户昵称
+            let userData = await this.userService.findOne(data.userId)
+            result = JSON.parse(JSON.stringify(result))
+            result.nickname = userData.nickname
+            return result
+        } else {
+            return null
         }
-        const createdMessage = new this.messageModel(resultData)
-        return await createdMessage.save()
     }
 
     async findAll(sessionId: string): Promise<IMessage[]> {

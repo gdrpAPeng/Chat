@@ -14,9 +14,12 @@ export class MessageGateway {
   }
 
   @SubscribeMessage('message')
-  handleMessage(client: any, payload: CreateMessageDto): Boolean {
-    let result = this.messageService.create(payload)
+  async handleMessage(client: any, payload: CreateMessageDto): Promise<boolean> {
+    let result = await this.messageService.create(payload)
+    // 通知当前客户端
     client.emit('message', result)
+    // 通知其它客户端
+    client.broadcast.emit('message', result)
     return true;
   }
 }
