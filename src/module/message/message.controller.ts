@@ -14,7 +14,7 @@ export class MessageController {
     }
 
     @Post()
-    create(@Body() message) {
-        return this.messageService.create(message)
+    create(@Body() data) {
+        return this.messageService.create(data)
     }
 }

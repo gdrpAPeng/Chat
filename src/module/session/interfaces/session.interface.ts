@@ -1,5 +1,7 @@
 import { Document } from "mongoose";
 
 export interface ISession extends Document {
-    readonly sessionName: string
+    readonly lastMessage: string
+    readonly lastFromUserId: string
+    readonly isGroup: number
 }

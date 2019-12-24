@@ -16,6 +16,7 @@ export class MessageGateway {
   @SubscribeMessage('message')
   async handleMessage(client: any, payload: CreateMessageDto): Promise<boolean> {
     let result = await this.messageService.create(payload)
+    console.log(payload, result)
     // 通知当前客户端
     client.emit('message', result)
     // 通知其它客户端

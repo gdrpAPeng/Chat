@@ -7,6 +7,7 @@ import { sessionProviders } from './session.providers';
 @Module({
   imports: [DatabaseModule],
   controllers: [SessionController],
-  providers: [SessionService, ...sessionProviders]
+  providers: [SessionService, ...sessionProviders],
+  exports: [SessionService]
 })
 export class SessionModule {}

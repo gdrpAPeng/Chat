@@ -1,4 +1,6 @@
 
 export class CreateSessionDto {
-    readonly sessionName: string
+    readonly isGroup?: number
+    readonly lastMessage: string
+    readonly lastFromUserId: string
 }

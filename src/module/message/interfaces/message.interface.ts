@@ -1,7 +1,7 @@
 import { Document } from "mongoose";
 
 export interface IMessage extends Document {
-    userId: string,
+    fromUserId: string,
     nickname: string,
     message: string,
 }

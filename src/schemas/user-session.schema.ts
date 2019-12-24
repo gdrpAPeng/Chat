@@ -1,11 +1,10 @@
 import * as mongoose from 'mongoose'
 import * as dayjs from 'dayjs'
 
-export const MessageSchema = new mongoose.Schema({
-    message: String,
+export const UserSessionSchema = new mongoose.Schema({
+    sessionId: String,
     fromUserId: String,
     toId: String,
-    sessionId: String,
 
 
     createTime: {
