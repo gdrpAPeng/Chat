@@ -16,14 +16,16 @@ export class UserService {
         return await createdUser.save()
     }
 
-    async findOne(id: string): Promise<User> {
-        return await this.userModel.findOne({
-            _id: id
-        })
+    async findById(id: string): Promise<User> {
+        return await this.userModel.findById(id)
     }
 
     async findAll(): Promise<User[]> {
         return await this.userModel.find().exec()
+    }
+
+    async findOne(data: object): Promise<User> {
+        return await this.userModel.findOne(data)
     }
 
 }

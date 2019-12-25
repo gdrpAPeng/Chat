@@ -5,10 +5,11 @@ import { MessageModule } from './module/message/message.module';
 import { UserModule } from './module/user/user.module';
 import { SessionModule } from './module/session/session.module';
 import { UserSessionModule } from './module/user_session/user-session.module';
+import { AuthModule } from './module/auth/auth.module';
 
 
 @Module({
-  imports: [MessageModule, UserModule, SessionModule, UserSessionModule],
+  imports: [MessageModule, UserModule, SessionModule, UserSessionModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

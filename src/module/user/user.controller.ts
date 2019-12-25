@@ -14,8 +14,8 @@ export class UserController {
     }
 
     @Get(':id')
-    findOne(@Param() data) {
-        return this.userService.findOne(data.id)
+    findOneById(@Param() data) {
+        return this.userService.findById(data.id)
     }
 
     @Post()

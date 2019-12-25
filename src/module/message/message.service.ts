@@ -36,7 +36,7 @@ export class MessageService {
 
         if(result) {
             // 获取用户昵称
-            let userData = await this.userService.findOne(fromUserId)
+            let userData = await this.userService.findById(fromUserId)
             result = JSON.parse(JSON.stringify(result))
             result.nickname = userData.nickname
             return result
@@ -53,7 +53,7 @@ export class MessageService {
         // Object.isExtensible() 确定对象是否可扩展
         messagesData = JSON.parse(JSON.stringify(messagesData))
         await Promise.all(messagesData.map(async item => {
-            const { nickname } = await this.userService.findOne(item.fromUserId)
+            const { nickname } = await this.userService.findById(item.fromUserId)
             item.nickname =  nickname
             return item
         }))
