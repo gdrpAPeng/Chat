@@ -10,12 +10,6 @@ export class AppController {
   @UseGuards(AuthGuard('local'))
   @Post('auth/login')
   async login(@Request() req) {
-    console.log(req.user)
     return this.authService.login(req.user);
-
-    // return await this.authService.validateUser({
-    //   nickname: 'APeng',
-    //   password: '123456'
-    // })
   }
 }

@@ -63,7 +63,7 @@ export class MessageService {
     
     // 业务逻辑
 
-    async getSessionId(data) {
+    async getSessionId(data: any) {
         const { fromUserId, toId, message } = data
         // 关联表里有的话直接拿
         let userSessionData = await this.userSessionService.findOne({

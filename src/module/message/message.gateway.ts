@@ -4,7 +4,21 @@ import { CreateMessageDto } from './dto/message.dto';
 
 @WebSocketGateway()
 export class MessageGateway {
+  private allSocket: Map<string, any> = new Map()
+
   constructor(private readonly messageService: MessageService){}
+
+  @SubscribeMessage('connection')
+  async handleConnect(client: any, payload: any) {
+    // console.log(client)
+    // console.log(client.handshake.query)
+    this.allSocket.set(payload.userId, client)
+  }
+
+  @SubscribeMessage('disconnected')
+  async handleDisconnect(client: any, payload: any) {
+    // console.log('disconnect')
+  }
 
   @SubscribeMessage('historyMessages')
   async handlerHistoryMessage(client: any, payload: any) {
@@ -14,12 +28,13 @@ export class MessageGateway {
   }
 
   @SubscribeMessage('message')
-  async handleMessage(client: any, payload: CreateMessageDto): Promise<boolean> {
+  async handleMessage(client: any, payload: CreateMessageDto): Promise<any> {
     let result = await this.messageService.create(payload)
-    // 通知当前客户端
-    client.emit('message', result)
+    // // 通知当前客户端
+    // client.emit('message', result)
+    this.allSocket.get('5e042cffc3f15d41c8f2c4c8').emit('message', result)
     // 通知其它客户端
     client.broadcast.emit('message', result)
-    return true;
+    return result;
   }
 }

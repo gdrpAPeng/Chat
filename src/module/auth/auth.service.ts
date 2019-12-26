@@ -11,7 +11,7 @@ export class AuthService {
 
     async login(user: any) {
         const payload = { 
-            nickname: user.nickname,
+            username: user.username,
             sub: user._id
         }
         return {
@@ -20,23 +20,18 @@ export class AuthService {
     }
 
     async validateUser(data: any): Promise<any> {
-        const { nickname, password } = data
+        const { username, password } = data
         // 获取数据
         const userData = await this.userService.findOne({
-            nickname,
+            username,
             password
         })
         if(userData) {
-            // const payload = {
-            //     nickname: nickname,
-            //     sub: userData._id
-            // }
-            // console.log(this.jwtService.sign(payload))
             return userData
         }
         // 没有就注册
         const userRegister = await this.userService.create({
-            nickname,
+            username,
             password
         })
 
