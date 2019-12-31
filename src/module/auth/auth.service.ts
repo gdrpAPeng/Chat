@@ -10,11 +10,13 @@ export class AuthService {
     ){}
 
     async login(user: any) {
+        const { username, _id } = user
         const payload = { 
-            username: user.username,
-            sub: user._id
+            username: username,
+            sub: _id
         }
         return {
+            username,
             access_token: this.jwtService.sign(payload)
         }
     }
@@ -29,12 +31,13 @@ export class AuthService {
         if(userData) {
             return userData
         }
+        return null
         // 没有就注册
-        const userRegister = await this.userService.create({
-            username,
-            password
-        })
+        // const userRegister = await this.userService.create({
+        //     username,
+        //     password
+        // })
 
-        return userRegister
+        // return userRegister
     }
 }
