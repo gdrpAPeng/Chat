@@ -1,4 +1,4 @@
-import { ConstantSessionModel, ConstantDatabaseConnection } from "src/common/constants";
+import { ConstantSessionModel, ConstantDatabaseConnection } from "src/constants/database";
 import { Connection } from "mongoose";
 import { SessionSchema } from "src/schemas/session.schema";
 

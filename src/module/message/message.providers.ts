@@ -1,5 +1,5 @@
 import { Connection } from 'mongoose'
-import { ConstantMessageModel, ConstantDatabaseConnection } from 'src/common/constants'
+import { ConstantMessageModel, ConstantDatabaseConnection } from 'src/constants/database'
 import { MessageSchema } from 'src/schemas/message.schema'
 
 export const messagesProviders = [

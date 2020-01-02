@@ -1,4 +1,4 @@
-import { ConstantUserSessionModel, ConstantDatabaseConnection } from "src/common/constants";
+import { ConstantUserSessionModel, ConstantDatabaseConnection } from "src/constants/database";
 import { Connection } from "mongoose";
 import { UserSessionSchema } from "src/schemas/user-session.schema";
 
