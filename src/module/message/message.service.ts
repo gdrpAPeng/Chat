@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { IUser, IMessage } from './interfaces/message.interface';
 import { CreateMessageDto } from './dto/message.dto';
 import { UserService } from 'src/module/user/user.service';
-import { ConstantMessageModel } from 'src/constants/database';
+import { ConstantMessageModel } from 'src/constants/models';
 import { Model } from 'mongoose';
 import { UserSessionService } from '../user_session/user-session.service';
 import { SessionService } from '../session/session.service';

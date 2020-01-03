@@ -1,4 +1,4 @@
-import { ConstantFriendModel, ConstantDatabaseConnection } from "src/constants/database";
+import { ConstantFriendModel, ConstantDatabaseConnection } from "src/constants/models";
 import { Connection } from "mongoose";
 import { FriendSchema } from "src/schemas/friend.schema";
 

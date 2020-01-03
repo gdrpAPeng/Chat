@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { ConstantSessionModel } from 'src/constants/database';
+import { ConstantSessionModel } from 'src/constants/models';
 import { Model } from 'mongoose';
 import { ISession } from './interfaces/session.interface';
 import { CreateSessionDto } from './dto/session.dto';
