@@ -6,7 +6,7 @@ export class SessionController {
     constructor(
         private readonly sessionService: SessionService
     ){}
-
+    
     @Get()
     findAll() {
         return this.sessionService.findAll()

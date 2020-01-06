@@ -6,7 +6,7 @@ export const SessionSchema = new mongoose.Schema({
     // createUserId: String,
     lastMessage: String,
     lastFromUserId: String,
-    isGounp: {
+    isGroup: {
         type: Number,
         default: 0
     },

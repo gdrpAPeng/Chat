@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { IUser, IMessage } from './interfaces/message.interface';
 import { CreateMessageDto } from './dto/message.dto';
 import { UserService } from 'src/module/user/user.service';
-import { ConstantMessageModel } from 'src/constants/models';
+import { ConstantMessageModel, ConstantUserModel } from 'src/constants/models';
 import { Model } from 'mongoose';
 import { UserSessionService } from '../user_session/user-session.service';
 import { SessionService } from '../session/session.service';
@@ -13,6 +13,8 @@ export class MessageService {
     constructor(
         @Inject(ConstantMessageModel)
         private readonly messageModel: Model<IMessage>,
+        @Inject(ConstantUserModel)
+        private readonly userModel: Model<any>,
         private readonly userService: UserService,
         private readonly userSessionService: UserSessionService,
         private readonly sessionService: SessionService
@@ -20,7 +22,7 @@ export class MessageService {
 
     async create(data: CreateMessageDto): Promise<IMessage> {
 
-        const { message, fromUserId, toId } = data
+        let { message, fromUserId, toId } = data
 
         // 后面可以再判断一下， 如果有传 session 则不做这一步操作
         const { sessionId } = await this.getSessionId(data)
@@ -35,29 +37,54 @@ export class MessageService {
         let result = await createdMessage.save()
 
         if(result) {
-            // 获取用户昵称
-            let userData = await this.userService.findById(fromUserId)
-            result = JSON.parse(JSON.stringify(result))
-            result.nickname = userData.nickname
-            return result
+            const { _id } = result
+            return await this.findOne(_id)
         } else {
             return null
         }
     }
 
+    async findOne(messageId: string): Promise<IMessage> {
+        return await this.messageModel
+            .findById(messageId)
+            .populate({
+                path: 'fromUserId',
+                model: this.userModel,
+                select: '_id nickname username'
+            })
+            .populate({
+                path: 'toId',
+                model: this.userModel,
+                select: '_id nickname username'
+            })
+            .select('_id message sessionId createTime updateTime')
+    }
+
     async findAll(sessionId: string): Promise<IMessage[]> {
-        let messagesData = await this.messageModel.find({
-            sessionId
-        })
+        return await this.messageModel
+            .find({
+                sessionId
+            })
+            .populate({
+                path: 'fromUserId',
+                model: this.userModel,
+                select: '_id nickname username'
+            })
+            .populate({
+                path: 'toId',
+                model: this.userModel,
+                select: '_id nickname username'
+            })
+            .select('_id message sessionId createTime')
         // Object.preventExtensions() 防止添加新属性
         // Object.isExtensible() 确定对象是否可扩展
-        messagesData = JSON.parse(JSON.stringify(messagesData))
-        await Promise.all(messagesData.map(async item => {
-            const { nickname } = await this.userService.findById(item.fromUserId)
-            item.nickname =  nickname
-            return item
-        }))
-        return messagesData
+        // messagesData = JSON.parse(JSON.stringify(messagesData))
+        // await Promise.all(messagesData.map(async item => {
+        //     const { nickname } = await this.userService.findById(item.fromUserId)
+        //     item.nickname =  nickname
+        //     return item
+        // }))
+        // return messagesData
     }
 
     
