@@ -40,4 +40,11 @@ export class AuthService {
 
         // return userRegister
     }
+
+    async verifyJwt(jwt: string): Promise<any> {
+        // 手动移除 'Bearer ' 前缀 
+        jwt = jwt.slice(7)
+        const result = await this.jwtService.verify(jwt)
+        return result
+    }
 }

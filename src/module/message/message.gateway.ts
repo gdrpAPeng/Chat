@@ -2,18 +2,15 @@ import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
 import { MessageService } from './message.service';
 import { CreateMessageDto } from './dto/message.dto';
 
+import allSocket from 'src/common/socket'
+
 @WebSocketGateway()
 export class MessageGateway {
   private allSocket: Map<string, any> = new Map()
 
-  constructor(private readonly messageService: MessageService){}
-
-  @SubscribeMessage('connection')
-  async handleConnect(client: any, payload: any) {
-    // console.log(client)
-    // console.log(client.handshake.query)
-    this.allSocket.set(payload.userId, client)
-  }
+  constructor(
+    private readonly messageService: MessageService
+  ){}
 
   @SubscribeMessage('disconnected')
   async handleDisconnect(client: any, payload: any) {

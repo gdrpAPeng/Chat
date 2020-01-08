@@ -37,7 +37,7 @@ export class FriendService {
         if(!data) {
             return await new this.friendModel(target).save()
         }
-
+        // 还得弄个申请表 ----------- 郁闷啊
         return null
     }
 
