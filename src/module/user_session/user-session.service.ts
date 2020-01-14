@@ -31,7 +31,12 @@ export class UserSessionService {
         path: 'sessionId',
         model: this.sessionModel,
         select: '_id lastMessage lastFromUserId isGroup updateTime',
-      });
+        populate: {
+          path: 'lastFromUserId',
+          model: this.userModel,
+          select: '_id nickname username'
+        }
+      })
   }
 
   async create(userSessionDto): Promise<any> {

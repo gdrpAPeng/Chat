@@ -33,4 +33,19 @@ export class UserService {
         .findOne(data)
         .select('_id username nickname createTime')
   }
+
+  async searchUser(search: string): Promise<User[]> {
+    return await this.userModel
+      .find({
+        $or: [
+          {
+            nickname: /search/
+          },
+          {
+            username: /search/
+          }
+        ]
+      })
+  }
+
 }

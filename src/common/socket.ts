@@ -1,5 +1,8 @@
 
 // 存储 客户端 socket 连接实例
-const allSocket = new Map()
+export const allSocket = new Map()
 
-export default allSocket
+// 存储 socket 实例与用户 id 的联系
+export const allSocketId = new Map()
+
+// export default allSocket
