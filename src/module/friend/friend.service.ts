@@ -1,4 +1,4 @@
-import { Injectable, Inject } from "@nestjs/common";
+import { Injectable, Inject, forwardRef } from "@nestjs/common";
 import { Model } from "mongoose";
 import { IFriend } from "./interfaces/friend.interface";
 import { ConstantFriendModel, ConstantUserModel } from "src/constants/models";
@@ -25,7 +25,6 @@ export class FriendService {
     }
 
     async addFriend(userId: string, friendId: string): Promise<any> {
-
         const target = {
             user_id: userId,
             friend_id: friendId
@@ -38,7 +37,13 @@ export class FriendService {
             return await new this.friendModel(target).save()
         }
         // 还得弄个申请表 ----------- 郁闷啊
-        return null
+        return data
     }
 
+    async checkFriend(userId: string, friendId: string): Promise<any> {
+        return await this.friendModel.findOne({
+            user_id: userId,
+            friend_id: friendId
+        })
+    }
 }

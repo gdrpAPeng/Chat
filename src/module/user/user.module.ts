@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { DatabaseModule } from 'src/database/database.module';
 import { usersProviders } from './user.providers';
 import { UserGateway } from './user.gateway';
+import { FriendModule } from '../friend/friend.module';
 
 @Module({
   imports: [DatabaseModule],

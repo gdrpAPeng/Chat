@@ -6,16 +6,15 @@ import { UserService } from './user.service';
 @WebSocketGateway()
 export class UserGateway {
     constructor(
-        private readonly userService: UserService
+        private readonly userService: UserService,
     ) {}
 
     @SubscribeMessage('searchUser')
     async searchUser(client: any, payload: any) {
         // 获取用户 id
         const userId = allSocketId.get(client.id)
-
         const { search } = payload
-        return await this.userService.searchUser(search)
+        return await this.userService.searchUser(search, userId)
     }
 
 }

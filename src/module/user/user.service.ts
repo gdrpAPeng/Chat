@@ -34,18 +34,22 @@ export class UserService {
         .select('_id username nickname createTime')
   }
 
-  async searchUser(search: string): Promise<User[]> {
+  async searchUser(search: string, userId?: string): Promise<User[]> {
     return await this.userModel
       .find({
+        _id: {
+          $ne: userId //  搜索排除自己
+        },
         $or: [
           {
-            nickname: /search/
+            nickname: {
+              $regex: search,
+              $options: 'i'
+            }
           },
-          {
-            username: /search/
-          }
         ]
       })
+
   }
 
 }

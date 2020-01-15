@@ -9,6 +9,7 @@ import { FriendGateway } from "./friend.gateway";
 @Module({
     imports: [DatabaseModule, UserModule],
     controllers: [FriendController],
-    providers: [FriendService, ...friendsProviders, FriendGateway]
+    providers: [FriendService, FriendGateway, ...friendsProviders],
+    exports: [FriendService]
 })
 export class FriendModule {}
